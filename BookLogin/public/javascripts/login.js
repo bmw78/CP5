@@ -4,6 +4,7 @@ angular.module('booklistlogin', [])
         '$scope', '$http',
         function($scope, $http) {
 
+            var registered = false;
 
             $scope.attemptLogin = function() {
                 if ($scope.username === '' || $scope.password === '') {
@@ -56,10 +57,12 @@ angular.module('booklistlogin', [])
                 $scope.username = $scope.usernameRegister;
                 $scope.password = $scope.passwordRegister;
 
-                if ($scope.register({
+                $scope.register({
                         username: $scope.usernameRegister,
                         password: $scope.passwordRegister,
-                    })) {
+                    })
+
+                if (registered == true) {
                     $scope.error = "Register successful.  Logining in.";
 
                     console.log("Register Successful.");
@@ -79,7 +82,12 @@ angular.module('booklistlogin', [])
                 console.log("Register Function Called.");
                 return $http.post('/users', user).success(function(data) {
                     console.log("Register Function Successful.");
+                    registered = true;
                     return true;
+                }).error(function(data) {
+                    console.log("Register Function Failed.");
+                    registered = false;
+                    return false;
                 });
             };
 
@@ -90,6 +98,13 @@ angular.module('booklistlogin', [])
                 $scope.usernameRegister = "";
                 $scope.passwordRegister = "";
             };
+            
+            $scope.deleteAll = function() {
+                $http.delete('/users?authority=' + $scope.devPW).success(function(data) {
+                    console.log("Delete Database Function Successful.");
+                    return true;
+                });
+            }
 
         }
 
