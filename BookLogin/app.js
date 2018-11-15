@@ -7,6 +7,7 @@ var logger = require('morgan');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/bookDB',{useNewUrlParser:true});
 require('./models/Books');
+require('./models/User');
 
 var db = mongoose.connection; //Saves the connection as a variable to use
 db.on('error', console.error.bind(console, 'connection error:')); //Checks for connection errors
