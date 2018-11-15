@@ -4,6 +4,16 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/bookDB',{useNewUrlParser:true});
+require('./models/Books');
+
+var db = mongoose.connection; //Saves the connection as a variable to use
+db.on('error', console.error.bind(console, 'connection error:')); //Checks for connection errors
+db.once('open', function() { //Lets us know when we're connected
+    console.log('Connected');
+});
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
