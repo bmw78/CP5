@@ -4,15 +4,14 @@ angular.module('book', [])
         '$scope', '$http',
         function($scope, $http) {
             $scope.books = [];
-            
             var username = "BOB";
             
             $scope.addBook = function() {
+               
                 if ($scope.formContent == undefined) {return}
                 else if($scope.formContent == "") {return}
                 else {
-                var newbook = { title: $scope.formContent, username: $scope.username };
-                console.log("Here is the username" + $scope.username);
+                var newbook = { title: $scope.formContent};
                 
                 $http.post('/books', newbook).success(function(data) {
                     $scope.books.push(data);
