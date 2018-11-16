@@ -13,6 +13,7 @@ angular.module('book', [])
                     window.location = "booklist.html";
                 }
                 username = AccessCookie("username");
+                $scope.searchText = username;
                 if (username === "" || !VerifyUsername(username)) {
                     //window.location = "login.html";
                 }
