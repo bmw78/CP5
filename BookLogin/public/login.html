@@ -5,6 +5,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
     <script src="javascripts/login.js"></script>
+    <link rel="stylesheet" href="/stylesheets/login.css"
 
 </head>
 
@@ -13,10 +14,10 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="page-header">
                 
-                <h1>Booklist Login</h1>
+                <h1><span style='border:2px rgb(179, 214, 255) solid; border-radius: 4px; background-color: rgb(179, 214, 255)'> Booklist Login</span></h1>
             </div>
 
-
+            <div class="main">
             <h3>Login Existing User</h3>
             <form ng-submit="attemptLogin()" style="margin-top30px;">
                 <input type="text" ng-model="username"></input>
@@ -41,6 +42,8 @@
                 <input type="password" ng-model="devPW"></input>
                 <button type="submit">Wipe DB</button>
             </form>
+            
+            </div>
 
         </div>
     </div>
