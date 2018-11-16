@@ -45,6 +45,16 @@ router.delete('/books/:book', function(req, res) {
     res.sendStatus(200);
 });
 
+router.delete('/books', function(req, res) {
+    console.log("In Delete All");
+    Book.deleteMany({}, function(err) {
+        if (err) {
+            return console.log(err);
+        }
+    });
+    res.sendStatus(200);
+});
+
 
 
 /* GET home page. */

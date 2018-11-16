@@ -132,8 +132,17 @@ angular.module('booklistlogin', [])
 
             $scope.deleteAll = function() {
                 $http.delete('/users?authority=' + $scope.devPW).success(function(data) {
-                    console.log("Delete Database Function Successful.");
-                    return true;
+                    console.log("Delete User Database Function Successful.");
+                    $http.delete('/books').success(function(data) {
+                        console.log("Delete Book Database Successful.");
+                        return true;
+                    }).error(function(data) {
+                        console.log("Delete Book Database Failure!");
+                        return false;
+                    });
+                }).error(function(data) {
+                    console.log("Delete User Database Function Failure!");
+                    return false;
                 });
             }
 
