@@ -53,17 +53,36 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/users', function(req, res, next) {
-    var user = new User(req.body);
+    var usernameTemp = req.query["un"];
+    var passwordTemp = req.query["pr"];
 
-    User.find(user, function(err, users) {
+    var obj = {};
+    if (usernameTemp) {
+        obj = { username: usernameTemp };
+    }
+
+    User.find(obj, function(err, users) {
         if (err) {
             return res.sendStatus(500);
             //return next(err); 
         }
         else {
-            res.json(user);
+            var user = users[0];
+            if (user.password == passwordTemp) {
+                res.sendStatus(200);
+            }
+            else {
+                res.sendStatus(400);
+            }
+
+
+            //res.json(users);
         }
     });
+});
+
+router.get('/users/:user', function(req, res) {
+    res.json(req.user);
 });
 
 router.param('user', function(req, res, next, id) {
