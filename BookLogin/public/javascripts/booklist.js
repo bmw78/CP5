@@ -4,23 +4,64 @@ angular.module('book', [])
         '$scope', '$http',
         function($scope, $http) {
             $scope.books = [];
-            
+
             var username = "BOB";
-            
-            $scope.addBook = function() {
-                if ($scope.formContent == undefined) {return}
-                else if($scope.formContent == "") {return}
-                else {
-                var newbook = { title: $scope.formContent, username: $scope.username };
-                console.log("Here is the username" + $scope.username);
-                
-                $http.post('/books', newbook).success(function(data) {
-                    $scope.books.push(data);
-                });
-                $scope.formContent = '';
+
+            $scope.init = function() {
+                if (window.location == "booklist.html?q=adever") {
+                    window.location = "booklist.html";
+                }
+                username = AccessCookie("username");
+                if (username == "" || !VerifyUsername(username)) {
+                    window.location = "login.html";
                 }
             };
-            
+
+            function AccessCookie(cname) {
+                //console.log("Cookie: " + document.cookie);
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            function VerifyUsername(uName) {
+                /*return $http.get('/users/' + uName).success(function(data) {
+                    console.log("User Found.");
+                    return true;
+                }).error(function(data) {
+                    console.log("User Not Found.");
+                    return false;
+                });*/
+                
+                //return false;
+                return true;
+            }
+
+
+            $scope.addBook = function() {
+                if ($scope.formContent == undefined) { return }
+                else if ($scope.formContent == "") { return }
+                else {
+                    var newbook = { title: $scope.formContent, username: $scope.username };
+                    console.log("Here is the username" + $scope.username);
+
+                    $http.post('/books', newbook).success(function(data) {
+                        $scope.books.push(data);
+                    });
+                    $scope.formContent = '';
+                }
+            };
+
             $scope.incrementUpvotes = function(book) {
                 // comment.upvotes += 1;
                 $http.put('/books/' + book._id + '/upvote')
@@ -29,7 +70,7 @@ angular.module('book', [])
                         book.upvotes += 1;
                     });
             };
-           
+
             $scope.delete = function(book) {
                 $http.delete('/books/' + book._id)
                     .success(function(data) {
@@ -37,8 +78,8 @@ angular.module('book', [])
                     });
                 $scope.getAll();
             };
-            
-             $scope.getAll = function() {
+
+            $scope.getAll = function() {
                 return $http.get('/books').success(function(data) {
                     angular.copy(data, $scope.books);
                 });

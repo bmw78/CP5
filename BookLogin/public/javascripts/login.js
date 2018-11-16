@@ -6,9 +6,9 @@ angular.module('booklistlogin', [])
 
             //var registered = false;
             //var loggedIn;
-            
-            var tempUser;
-            var tempPass;
+
+            var tempUser = "";
+            var tempPass = "";
 
             $scope.attemptLogin = function() {
                 if ($scope.username === '' || $scope.password === '') {
@@ -22,18 +22,18 @@ angular.module('booklistlogin', [])
                     username: $scope.username,
                     password: $scope.password,
                 });
-                
+
                 $scope.password = "";
             };
 
             $scope.login = function(user) {
                 console.log("Login Function Called.");
                 var url = '/users?un=' + user.username + "&pr=" + user.password;
-                
-                
+
+
                 return $http.get(url).success(function(data) {
                     console.log("Login Successful.");
-                    
+
                     $scope.loginDelay();
                     return true;
                 }).error(function(data) {
@@ -45,11 +45,11 @@ angular.module('booklistlogin', [])
 
             $scope.loginDelay = function() {
                 //if (loggedIn) {
-                    $scope.error = "Login successful.";
-                    var date = new Date();
-                    date.setTime(date.getTime() + (600 * 1000));
-                    document.cookie = ("username=" + $scope.username + "; expires=" + date.toUTCString() + "; path=/;");
-                    window.location = "booklist.html?q=adever";
+                $scope.error = "Login successful.";
+                var date = new Date();
+                date.setTime(date.getTime() + (600 * 1000));
+                document.cookie = ("username=" + $scope.username + "; expires=" + date.toUTCString() + "; path=/;");
+                window.location = "booklist.html?q=adever";
                 //}
 
             };
@@ -65,16 +65,15 @@ angular.module('booklistlogin', [])
 
                 tempUser = $scope.username;
                 tempPass = $scope.password;
-
-                $scope.username = $scope.usernameRegister;
-                $scope.password = $scope.passwordRegister;
+                
+                console.log(tempUser);
 
                 $scope.register({
                     username: $scope.usernameRegister,
                     password: $scope.passwordRegister,
-                })
+                });
 
-                
+
 
             };
 
@@ -82,33 +81,38 @@ angular.module('booklistlogin', [])
                 console.log("Register Function Called.");
                 return $http.post('/users', user).success(function(data) {
                     console.log("Register Function Successful.");
-                    $scope.registerDelay;
+                    $scope.registerDelay();
                     return true;
                 }).error(function(data) {
                     console.log("Register Function Failed.");
                     $scope.error = "Register unsuccessful.";
-                    $scope.reset;
+                    $scope.resetFields();
                     return false;
                 });
             };
-            
+
             $scope.registerDelay = function() {
-                //if (registered) {
-                    $scope.error = "Register successful.  Logining in.";
+                $scope.error = "Register successful.  Logining in.";
 
-                    console.log("Register Successful.");
-                    $scope.attemptLogin();
+                console.log("Register Successful.");
+                
+                
 
-                //}
+                $scope.username = $scope.usernameRegister;
+                $scope.password = $scope.passwordRegister;
+                $scope.attemptLogin();
 
-                $scope.reset();
+
+                $scope.resetFields();
             }
-            
-            $scope.reset = function() {
+
+            $scope.resetFields = function() {
                 $scope.username = tempUser;
                 $scope.password = tempPass;
                 tempUser = "";
                 tempPass = "";
+                
+                //console.log($scope.username);
             }
 
 
