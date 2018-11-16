@@ -11,7 +11,7 @@ angular.module('book', [])
                 if ($scope.formContent == undefined) {return}
                 else if($scope.formContent == "") {return}
                 else {
-                var newbook = { title: $scope.formContent};
+                var newbook = { title: $scope.formContent, upvotes: 0, name: username};
                 
                 $http.post('/books', newbook).success(function(data) {
                     $scope.books.push(data);
