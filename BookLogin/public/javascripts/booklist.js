@@ -5,11 +5,17 @@ angular.module('book', [])
             $scope.books = [];
             
             $scope.addBook = function() {
-                var newbook = { title: $scope.formContent, upvotes: 0 };
+                if ($scope.formContent == undefined) {return}
+                else if($scope.formContent == "") {return}
+                else {
+                var newbook = { title: $scope.formContent, username: $scope.username };
+                console.log("Here is the username" + $scope.username);
+                
                 $http.post('/books', newbook).success(function(data) {
                     $scope.books.push(data);
                 });
                 $scope.formContent = '';
+                }
             };
             
             $scope.incrementUpvotes = function(book) {
