@@ -53,6 +53,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/users', function(req, res, next) {
+    console.log("In GET Valid User Login");
     var usernameTemp = req.query["un"];
     var passwordTemp = req.query["pr"];
 
@@ -67,6 +68,10 @@ router.get('/users', function(req, res, next) {
             //return next(err); 
         }
         else {
+            if (users.length == 0)
+            {
+                return res.sendStatus(400);
+            }
             var user = users[0];
             if (user.password == passwordTemp) {
                 res.sendStatus(200);
@@ -81,12 +86,11 @@ router.get('/users', function(req, res, next) {
     });
 });
 
-router.get('/users/:user', function(req, res) {
-    res.json(req.user);
-});
 
 router.param('user', function(req, res, next, id) {
+    console.log("ID: " + id);
     var query = User.findById(id);
+    console.log("Q: " + query);
     query.exec(function(err, user) {
         if (err) {
             return next(err);
@@ -95,6 +99,11 @@ router.param('user', function(req, res, next, id) {
         req.user = user;
         return next();
     });
+});
+
+router.get('/users/:user', function(req, res) {
+    console.log("In GET Valid User Verify.");
+    res.json(req.user);
 });
 
 router.post('/users', function(req, res, next) {
