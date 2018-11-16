@@ -1,8 +1,11 @@
+/*global angular*/
 angular.module('book', [])
     .controller('MainCtrl', [
         '$scope', '$http',
         function($scope, $http) {
             $scope.books = [];
+            
+            var username = "BOB";
             
             $scope.addBook = function() {
                 if ($scope.formContent == undefined) {return}
