@@ -39,7 +39,7 @@ angular.module('booklistlogin', [])
                 }).error(function(data) {
                     console.log("Login Failed.");
                     $scope.error = "Login unsuccessful.";
-                    return true;
+                    return false;
                 });
             };
 
@@ -49,6 +49,13 @@ angular.module('booklistlogin', [])
                 var date = new Date();
                 date.setTime(date.getTime() + (600 * 1000));
                 document.cookie = ("username=" + $scope.username + "; expires=" + date.toUTCString() + "; path=/;");
+                var start = new Date().getTime();
+                for (var i = 0; i < 1e7; i++) {
+                    if ((new Date().getTime() - start) > 200) {
+                        break;
+                    }
+                }
+                
                 window.location = "booklist.html?q=adever";
                 //}
 
@@ -65,7 +72,7 @@ angular.module('booklistlogin', [])
 
                 tempUser = $scope.username;
                 tempPass = $scope.password;
-                
+
                 console.log(tempUser);
 
                 $scope.register({
@@ -95,15 +102,15 @@ angular.module('booklistlogin', [])
                 $scope.error = "Register successful.  Logining in.";
 
                 console.log("Register Successful.");
-                
-                
+
+
 
                 $scope.username = $scope.usernameRegister;
                 $scope.password = $scope.passwordRegister;
                 $scope.attemptLogin();
 
 
-                $scope.resetFields();
+                //$scope.resetFields();
             }
 
             $scope.resetFields = function() {
@@ -111,7 +118,7 @@ angular.module('booklistlogin', [])
                 $scope.password = tempPass;
                 tempUser = "";
                 tempPass = "";
-                
+
                 //console.log($scope.username);
             }
 

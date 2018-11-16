@@ -13,8 +13,8 @@ angular.module('book', [])
                     window.location = "booklist.html";
                 }
                 username = AccessCookie("username");
-                if (username == "" || !VerifyUsername(username)) {
-                    window.location = "login.html";
+                if (username === "" || !VerifyUsername(username)) {
+                    //window.location = "login.html";
                 }
             };
 
